@@ -1,0 +1,39 @@
+import heapq
+
+class PointWithD:
+	def __init__(self, vertex, cord):
+		self.x = cord[0]
+		self.y = cord[1]
+		self.dist = (cord[0]-vertex[0])**2 + (cord[1]-vertex[1])**2  
+
+	def __cmp__(self, other):
+		return -cmp(self.dist, other.dist)
+
+
+def kth_closest(vertex, points, k):
+	points_with_d = [PointWithD(vertex, point) for point in points]
+	for i in points_with_d:
+		print i.dist
+
+	min_heap=[]
+	for pt in points_with_d[:k]:
+		heapq.heappush(min_heap, pt)
+
+	#while min_heap:
+	#	pt = heapq.heappop(min_heap)
+	#	print pt.x, pt.y, pt.dist
+
+	for pt in points_with_d[k:]:
+		if pt.dist < min_heap[0].dist:
+			print "replace", min_heap[0].x, min_heap[0].y, "with",  pt.x, pt.y
+			heapq.heapreplace(min_heap, pt)
+
+	print "results"	
+	while min_heap:
+		pt = heapq.heappop(min_heap)
+		print pt.x, pt.y
+
+
+kth_closest((5,5), [(1,-1), (3,3), (7,7), (10,10), (2,-2), (5,5)], 3)
+
+ 
